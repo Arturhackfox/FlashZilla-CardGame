@@ -94,6 +94,7 @@ struct ContentView: View {
         .sheet(isPresented: $vm.isEditViewShowing, content: EditCards.init)
         //MARK: calling view with.init the same as { EditCards() } and it works because it has no custom values in takes no parameters!
         .onAppear(perform: startAgain)
+      
     }
     
     func startAgain() {

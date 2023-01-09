@@ -22,22 +22,16 @@ struct EditCards: View {
         NavigationView {
             List {
                 Section("add new card"){
-                    TextField("name", text: $name)
-                    TextField("prompt", text: $prompt)
-                    
-                    Button {
-                        let newCard = Card(name: name, prompt: prompt)
-                        allCards.insert(newCard, at: 0)
-                        save()
-                    } label: {
-                        Text("save data")
-                    }
+                    TextField("Prompt", text: $prompt)
+                    TextField("Answer", text: $name)
+                    Button("Add card", action: addNewCard)
                 }
                 ForEach(0..<allCards.count, id: \.self) { index in
-                    VStack {
-                        Text(allCards[index].name)
-                        
+                    VStack(alignment: .leading){
                         Text(allCards[index].prompt)
+                            .font(.headline)
+                        Text(allCards[index].name)
+                            .foregroundColor(.secondary)
                     }
                 }
                 .onDelete(perform: deleteRow)
@@ -48,6 +42,14 @@ struct EditCards: View {
             }
             .onAppear(perform: loadData)
         }
+    }
+    
+    func addNewCard() {
+        let newCard = Card(name: name, prompt: prompt)
+        allCards.insert(newCard, at: 0)
+        name = ""
+        prompt = ""
+        save()
     }
     
     func loadData() {
