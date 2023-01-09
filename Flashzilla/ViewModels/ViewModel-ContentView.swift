@@ -18,11 +18,25 @@ extension View {
 
 extension ContentView {
     @MainActor class ViewModel: ObservableObject {
+        @Published  var cards = [Card]()
+
         @Published  var  timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         @Published  var timeRemaining = 100
         
         @Published  var isActive = false
         
+        @Published var isEditViewShowing = false
+        
+
+        func loadData() {
+            do{
+                if let data = UserDefaults.standard.data(forKey: "Cards") {
+                    cards = try JSONDecoder().decode([Card].self, from: data)
+                }
+            } catch {
+                print("failed to load the data.")
+            }
+        }
         
         
         

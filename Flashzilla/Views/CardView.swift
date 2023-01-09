@@ -13,6 +13,8 @@ struct CardView: View {
     
     @State var isAnswerShowng = false
     @State var offset = CGSize.zero
+    
+    @State var haptics = UINotificationFeedbackGenerator()
 
     var body: some View {
         ZStack {
@@ -46,8 +48,14 @@ struct CardView: View {
         DragGesture()
             .onChanged { change in
                 offset = change.translation
+                haptics.prepare() //MARK: Prepering before buzzing
             }
             .onEnded { _ in
+                //MARK: Haptics if error buzz
+                if offset.width < 0 {
+                    haptics.notificationOccurred(.error)
+                }
+                //MARK: remove closure takes func anytime it goes beyond 100 left or right
                 if abs(offset.width) > 100 {
                     removal?()
                 }
@@ -59,6 +67,7 @@ struct CardView: View {
         .onTapGesture {
             isAnswerShowng.toggle()
         }
+        .animation(.spring(), value: offset) //MARK:  card goes back in deck with animation
     }
 }
 
