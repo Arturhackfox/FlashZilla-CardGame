@@ -13,11 +13,15 @@ struct CardView: View {
     
     @State var isAnswerShowng = false
     @State var offset = CGSize.zero
-    
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(.white)
+                .fill(.white.opacity(1 - Double(abs(offset.width / 50))))
+                .background(
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .fill(offset.width > 0 ? .green : .red)
+                )
                 .shadow(radius: 20)
             
             VStack {
@@ -53,7 +57,7 @@ struct CardView: View {
             }
         )
         .onTapGesture {
-            isAnswerShowng = true
+            isAnswerShowng.toggle()
         }
     }
 }

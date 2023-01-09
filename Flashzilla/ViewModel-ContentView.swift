@@ -18,10 +18,14 @@ extension View {
 
 extension ContentView {
     @MainActor class ViewModel: ObservableObject {
+        @Published  var  timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+        @Published  var timeRemaining = 100
+        
+        @Published  var isActive = false
         
         
         
         
     }
-
+    
 }
